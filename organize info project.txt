@@ -1,12 +1,12 @@
-connection manager: PLAB3
+connection manager: PLAB3 NEXT TO DO!!
 	log-events sent too the logger
 	gets data from sensors (TCP) 
 	write this data too buffer
 	
 data manager:PLAB1
-	read data from buffer instead of file
-	still does running average, too hot/cold
-	sends too hot/cold to logger, or if sensor data is invalid
+	W read data from buffer instead of file
+	W still does running average, too hot/cold
+	  sends too hot/cold to logger, or if sensor data is invalid
 
 storage manager:PLAB2
 	log events sent too the logger
