@@ -1,0 +1,39 @@
+connection manager: PLAB3
+	log-events sent too the logger
+	gets data from sensors (TCP) 
+	write this data too buffer
+	
+data manager:PLAB1
+	read data from buffer instead of file
+	still does running average, too hot/cold
+	sends too hot/cold to logger, or if sensor data is invalid
+
+storage manager:PLAB2
+	log events sent too the logger
+	read data from buffer put it in data.csv file( "w" because new when program rerun)
+	
+logger:PLAB2
+	receives data from all different threads via pipe
+	still child of the main process
+	writes messages from pipe to gateway.log
+	gateway.log("w" because new when program rerun)
+	
+shared data:PLAB4 
+	connection manager == writer thread
+	data manager == reader thread
+	storage manager == reader thread
+	
+
+
+logs to be supported:
+1.	connection manager:
+2.		sensor node <ID> has opened a new connection
+3.		sensor node <ID> has closed the connection
+4.	Data manager:
+5.		sensor node <ID> reports it is too cold
+6.		sensor node <ID> reports it is too hot
+7.		Received sensor data with invalid sensor node ID <ID>
+8.	storage manager:
+9.		a new data.csv file has been created
+10.		Data insertion from sensor <ID> succeeded
+11.		the data.csv file has been closed
