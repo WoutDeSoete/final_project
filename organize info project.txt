@@ -1,7 +1,7 @@
-connection manager: PLAB3 NEXT TO DO!!
-	log-events sent too the logger
-	gets data from sensors (TCP) 
-	write this data too buffer
+connection manager: PLAB3 
+	  log-events sent to the logger
+	W gets data from sensors (TCP) 
+	W write this data too buffer
 	
 data manager:PLAB1
 	W read data from buffer instead of file
@@ -10,7 +10,7 @@ data manager:PLAB1
 
 storage manager:PLAB2
 	log events sent too the logger
-	read data from buffer put it in data.csv file( "w" because new when program rerun)
+	W read data from buffer put it in data.csv file( "w" because new when program rerun)
 	
 logger:PLAB2
 	receives data from all different threads via pipe
@@ -20,8 +20,8 @@ logger:PLAB2
 	
 shared data:PLAB4 
 	connection manager == writer thread
-	data manager == reader thread
-	storage manager == reader thread
+	W data manager == reader thread
+	W storage manager == reader thread
 	
 
 
