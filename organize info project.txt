@@ -1,7 +1,7 @@
 connection manager: PLAB3 
 	  log-events sent to the logger
 	W gets data from sensors (TCP) 
-	W write this data too buffer
+	write this data too buffer
 	
 data manager:PLAB1
 	W read data from buffer instead of file
@@ -9,7 +9,7 @@ data manager:PLAB1
 	  sends too hot/cold to logger, or if sensor data is invalid
 
 storage manager:PLAB2
-	log events sent too the logger
+	  log events sent too the logger
 	W read data from buffer put it in data.csv file( "w" because new when program rerun)
 	
 logger:PLAB2
@@ -19,7 +19,7 @@ logger:PLAB2
 	gateway.log("w" because new when program rerun)
 	
 shared data:PLAB4 
-	connection manager == writer thread
+	W connection manager == writer thread
 	W data manager == reader thread
 	W storage manager == reader thread
 	
