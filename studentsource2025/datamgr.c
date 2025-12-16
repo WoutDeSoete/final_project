@@ -149,7 +149,6 @@ void datamgr_parse_sensor_files(FILE *fp_sensor_map, sbuffer_t *buf)
         sensor_node_t *node = find_sensor(data.id);
         if (node == NULL) {
             //TODO: logger message here unknown ID
-
             continue;
         }
 
@@ -157,10 +156,16 @@ void datamgr_parse_sensor_files(FILE *fp_sensor_map, sbuffer_t *buf)
         double avg = compute_avg(node);
         if (node->buf_count >= RUN_AVG_LENGTH) {
             if (avg > SET_MAX_TEMP)
+            {
                 //TODO: logger message here too hot
+            }
+
 
             else if (avg < SET_MIN_TEMP)
+            {
                 //TODO: logger message here too cold
+            }
+
 
         }
     }
