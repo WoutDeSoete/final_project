@@ -1,7 +1,9 @@
 connection manager: PLAB3 
 	  log-events sent to the logger
-	W gets data from sensors (TCP) 
+	  	how we get logger func from main.c to other functions?
+	V gets data from sensors (TCP) 
 	write this data too buffer
+		how we get buffer from main.c to connection manager?
 	
 data manager:PLAB1
 	W read data from buffer instead of file
@@ -13,10 +15,11 @@ storage manager:PLAB2
 	W read data from buffer put it in data.csv file( "w" because new when program rerun)
 	
 logger:PLAB2
-	receives data from all different threads via pipe
-	still child of the main process
-	writes messages from pipe to gateway.log
-	gateway.log("w" because new when program rerun)
+	  receives data from all different threads via pipe
+	  	how? define macro maybe? no extra c file allowed?
+	V still child of the main process
+	V writes messages from pipe to gateway.log
+	V gateway.log("w" because new when program rerun)
 	
 shared data:PLAB4 
 	W connection manager == writer thread
