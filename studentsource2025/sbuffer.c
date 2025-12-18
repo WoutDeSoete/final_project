@@ -50,6 +50,7 @@ int sbuffer_free(sbuffer_t **buffer) {
 
 int sbuffer_remove(sbuffer_t *buffer, sensor_data_t *data) {
     sbuffer_node_t *dummy;
+    //TODO: condition variable behavior for the shared buffer
     if (buffer == NULL) return SBUFFER_FAILURE;
     if (buffer->head == NULL) return SBUFFER_NO_DATA;
     pthread_mutex_lock(&file_lock);

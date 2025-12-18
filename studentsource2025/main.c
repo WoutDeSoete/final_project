@@ -49,8 +49,9 @@ int main(int argc, char* argv[])
         write_to_logger( "Failed to init sbuffer\n");
         return -1;
     }
-    write_to_logger("buffer created");
+    write_to_logger("buffer created\n");
 
+    write_to_logger("END\n");
 
 }
 
