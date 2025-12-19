@@ -95,9 +95,8 @@ int sbuffer_remove(sbuffer_t *buffer, sensor_data_t *data) {
 }
 
 int sbuffer_insert(sbuffer_t *buffer, sensor_data_t *data) {
-    sbuffer_node_t *dummy;
     if (buffer == NULL || data == NULL) return SBUFFER_FAILURE;
-    dummy = malloc(sizeof(sbuffer_node_t));
+    sbuffer_node_t* dummy = malloc(sizeof(sbuffer_node_t));
     if (dummy == NULL) return SBUFFER_FAILURE;
     dummy->data = *data;
     dummy->next = NULL;
