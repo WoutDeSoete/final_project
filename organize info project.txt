@@ -1,27 +1,25 @@
-connection manager: PLAB3 
-	  log-events sent to the logger
-	  	how we get logger func from main.c to other functions?
+connection manager: PLAB3 (connmgr.c)
+	W log-events sent to the logger
 	V gets data from sensors (TCP) 
-	write this data too buffer
-		how we get buffer from main.c to connection manager?
-	
-data manager:PLAB1
+	W write this data too buffer
+		
+data manager:PLAB1 (datamgr.c)
 	W read data from buffer instead of file
 	W still does running average, too hot/cold
-	  sends too hot/cold to logger, or if sensor data is invalid
+	W sends too hot/cold to logger, or if sensor data is invalid
 
-storage manager:PLAB2
-	  log events sent too the logger
-	W read data from buffer put it in data.csv file( "w" because new when program rerun)
+storage manager:PLAB2 (sensor_db.c)
+	W log events sent too the logger
+	W read data from buffer put it in data.csv file( "w" cause new when program rerun)
 	
-logger:PLAB2
-	  receives data from all different threads via pipe
-	  	how? define macro maybe? no extra c file allowed?
+logger:PLAB2 (main.c)
+	W receives data from all different threads via pipe
 	V still child of the main process
 	V writes messages from pipe to gateway.log
 	V gateway.log("w" because new when program rerun)
 	
-shared data:PLAB4 
+shared data:PLAB4 (sbuffer.c)
+		how to work with condition variable?
 	W connection manager == writer thread
 	W data manager == reader thread
 	W storage manager == reader thread

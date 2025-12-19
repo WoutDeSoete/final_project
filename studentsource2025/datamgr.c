@@ -6,6 +6,7 @@
 #include "lib/dplist.h"
 #include <stdint.h>
 #include <inttypes.h>
+#include <pthread.h>
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
@@ -41,9 +42,6 @@ typedef struct sensor_node {
     double sum;
     time_t last_modified;
 } sensor_node_t;
-
-// Head of linked list
-static sensor_node_t *head = NULL;
 
 // helper functions
 
@@ -142,6 +140,7 @@ void datamgr_parse_sensor_files(FILE *fp_sensor_map, sbuffer_t *buf)
         int r = sbuffer_remove(buf, &data);
         if (r != 0|| data.id == 0) {
             // EOS or no more data
+            printf("datamgr: closing\n");
             break;
         }
 
@@ -149,6 +148,11 @@ void datamgr_parse_sensor_files(FILE *fp_sensor_map, sbuffer_t *buf)
         sensor_node_t *node = find_sensor(data.id);
         if (node == NULL) {
             //TODO: logger message here unknown ID
+            char msg[50];
+            //sprintf( "Received sensor data with invalid sensor node ID %" PRIu16 "\n", data.id);
+            pthread_mutex_lock(&pipe_mutex);
+            write(pipe_write_fd, msg, strlen(msg));
+            pthread_mutex_unlock(&pipe_mutex);
             continue;
         }
 
@@ -157,13 +161,21 @@ void datamgr_parse_sensor_files(FILE *fp_sensor_map, sbuffer_t *buf)
         if (node->buf_count >= RUN_AVG_LENGTH) {
             if (avg > SET_MAX_TEMP)
             {
-                //TODO: logger message here too hot
+                char msg[50];
+                sprintf(msg, "sensor node %d reports it is too hot\n", data.id);
+                pthread_mutex_lock(&pipe_mutex);
+                write(pipe_write_fd, msg, strlen(msg));
+                pthread_mutex_unlock(&pipe_mutex);
             }
 
 
             else if (avg < SET_MIN_TEMP)
             {
-                //TODO: logger message here too cold
+                char msg[50];
+                sprintf(msg, "sensor node %d reports it is too cold\n", data.id);
+                pthread_mutex_lock(&pipe_mutex);
+                write(pipe_write_fd, msg, strlen(msg));
+                pthread_mutex_unlock(&pipe_mutex);
             }
 
 

@@ -6,12 +6,17 @@
 #define _SBUFFER_H_
 
 #include "config.h"
+#include <pthread.h>
 
 #define SBUFFER_FAILURE -1
 #define SBUFFER_SUCCESS 0
 #define SBUFFER_NO_DATA 1
 
 typedef struct sbuffer sbuffer_t;
+
+//for the logger
+extern int pipe_write_fd;
+extern pthread_mutex_t pipe_mutex;
 
 /**
  * Allocates and initializes a new shared buffer
