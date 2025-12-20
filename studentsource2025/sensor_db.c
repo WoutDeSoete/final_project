@@ -38,8 +38,3 @@ void process_data(sbuffer_t *buf)
     write(pipe_write_fd, msg3, strlen(msg3));
     pthread_mutex_unlock(&pipe_mutex);
 }
-
-int close_db(FILE * f)
-{
-    return fclose(f);
-}
