@@ -74,7 +74,6 @@ int sbuffer_remove(sbuffer_t *buffer, sensor_data_t *data) {
         }
     }//setting data and removing node happens here (see original code)
     *data = buffer->head->data;
-    printf("Sbuffer remove sensor: %d\n", data->id);
     dummy = buffer->head;
     if (buffer->head == buffer->tail) // buffer has only one node
     {
