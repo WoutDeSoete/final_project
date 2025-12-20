@@ -113,14 +113,13 @@ int main(int argc, char* argv[])
     pthread_join(storagemgr, NULL);
 
     // cleanup
-    sbuffer_free(&buf);
     write_to_logger("END\n");
     close(fd[WRITE_END]);
     wait(NULL);
     pid = -1;
+    sbuffer_free(&buf);
     printf("end of the main file\n");
     return 0;
-
 }
 
 void *connection_thread(void *arg)

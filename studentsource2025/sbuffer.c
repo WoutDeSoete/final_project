@@ -6,6 +6,7 @@
 #include "sbuffer.h"
 
 #include <stdbool.h>
+#include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -60,7 +61,6 @@ int sbuffer_free(sbuffer_t **buffer) {
 
 int sbuffer_remove(sbuffer_t *buffer, sensor_data_t *data) {
     sbuffer_node_t *dummy;
-    //TODO: condition variable behavior for the shared buffer
     if (buffer == NULL) return SBUFFER_FAILURE;
     pthread_mutex_lock(&file_lock);
     if (buffer->head == NULL)
@@ -74,6 +74,7 @@ int sbuffer_remove(sbuffer_t *buffer, sensor_data_t *data) {
         }
     }//setting data and removing node happens here (see original code)
     *data = buffer->head->data;
+    printf("Sbuffer remove sensor: %d\n", data->id);
     dummy = buffer->head;
     if (buffer->head == buffer->tail) // buffer has only one node
     {
@@ -87,6 +88,7 @@ int sbuffer_remove(sbuffer_t *buffer, sensor_data_t *data) {
         buffer->done = true;
         pthread_cond_signal(&dataavailable);//other threads might be waiting ->next !
         pthread_mutex_unlock(&file_lock);
+        free(dummy);
         return SBUFFER_NO_DATA;
     }
     pthread_mutex_unlock(&file_lock);

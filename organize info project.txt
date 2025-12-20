@@ -19,7 +19,6 @@ logger:PLAB2 (main.c)
 	V gateway.log("w" because new when program rerun)
 	
 shared data:PLAB4 (sbuffer.c)
-		how to work with condition variable?
 	W connection manager == writer thread
 	W data manager == reader thread
 	W storage manager == reader thread
@@ -38,3 +37,6 @@ logs to be supported:
 9.		a new data.csv file has been created
 10.		Data insertion from sensor <ID> succeeded
 11.		the data.csv file has been closed
+
+works but mem loss: 	sbuffer insert, connection manager
+			logger_loop

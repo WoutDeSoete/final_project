@@ -53,7 +53,7 @@ int connection_manager(int MAX_CONN, int PORT, sbuffer_t *buffer) {
         pthread_join(tid[i], NULL);
     }
     if (tcp_close(&server) != TCP_NO_ERROR) exit(EXIT_FAILURE);
-    printf("Test server is shutting down\n");
+    printf("Connection manager is shutting down\n");
     //signaling to readers end of stream
     sensor_data_t eos = {0, 0.0, 0};
     sbuffer_insert(buffer, &eos);
