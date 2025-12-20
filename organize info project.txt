@@ -38,5 +38,4 @@ logs to be supported:
 10.		Data insertion from sensor <ID> succeeded
 11.		the data.csv file has been closed
 
-works but mem loss: 	sbuffer insert, connection manager
-			logger_loop
+
