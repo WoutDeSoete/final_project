@@ -1,27 +1,27 @@
 connection manager: PLAB3 (connmgr.c)
-	W log-events sent to the logger
+	V log-events sent to the logger
 	V gets data from sensors (TCP) 
-	W write this data too buffer
+	V write this data too buffer
 		
 data manager:PLAB1 (datamgr.c)
-	W read data from buffer instead of file
-	W still does running average, too hot/cold
-	W sends too hot/cold to logger, or if sensor data is invalid
+	V read data from buffer instead of file
+	V still does running average, too hot/cold
+	V sends too hot/cold to logger, or if sensor data is invalid
 
 storage manager:PLAB2 (sensor_db.c)
-	W log events sent too the logger
-	W read data from buffer put it in data.csv file( "w" cause new when program rerun)
+	V log events sent too the logger
+	V read data from buffer put it in data.csv file( "w" cause new when program rerun)
 	
 logger:PLAB2 (main.c)
-	W receives data from all different threads via pipe
+	V receives data from all different threads via pipe
 	V still child of the main process
 	V writes messages from pipe to gateway.log
 	V gateway.log("w" because new when program rerun)
 	
 shared data:PLAB4 (sbuffer.c)
-	W connection manager == writer thread
-	W data manager == reader thread
-	W storage manager == reader thread
+	V connection manager == writer thread
+	V data manager == reader thread
+	V storage manager == reader thread
 	
 
 
