@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/select.h>
 
 #include "config.h"
 #include "sbuffer.h"
@@ -17,6 +18,10 @@
 /**
  * Implements a sequential test server (only one connection at the same time)
  */
+
+#ifndef TIMEOUT
+#error TIMEOUT not set
+#endif
 
 typedef struct
 {
@@ -27,23 +32,25 @@ typedef struct
 
 
 void *processing_data(void *arg);
+static int wait_for_data(tcpsock_t *client);
 
 int connection_manager(int MAX_CONN, int PORT, sbuffer_t *buffer) {
     tcpsock_t *server;
-    tcpsock_t *clients[MAX_CONN];
+    //tcpsock_t *clients[MAX_CONN];
     int conn_counter = 0;
 
     pthread_t tid[MAX_CONN];
 
-    processor_arg_t arg = {.buf = buffer};
     printf("Test server is started\n");
     if (tcp_passive_open(&server, PORT) != TCP_NO_ERROR) exit(EXIT_FAILURE);
     do {
-        tcpsock_t *client = clients[conn_counter];
+        tcpsock_t *client = NULL;
         if (tcp_wait_for_connection(server, &client) != TCP_NO_ERROR) exit(EXIT_FAILURE);
 
-        arg.client = client;
-        pthread_create(&tid[conn_counter], NULL, processing_data, &arg);
+        processor_arg_t *arg = malloc(sizeof(processor_arg_t));
+        arg->buf = buffer;
+        arg->client = client;
+        pthread_create(&tid[conn_counter], NULL, processing_data, arg);
         conn_counter++;
 
     } while (conn_counter < MAX_CONN);
@@ -66,14 +73,32 @@ void *processing_data(void *arg)
     tcpsock_t  *client = process->client;
     sbuffer_t *buffer = process->buf;
     sensor_data_t data;
-    int bytes, result;
+    int bytes;
+    int result = 0;
     bool first_conn = true;
 
     do {
+            int ready = wait_for_data(client);
+
+            if (ready == 0) {
+                // TIMEOUT occurred
+                char msg[80];
+                sprintf(msg, "sensor node %d timed out\n", data.id);
+                pthread_mutex_lock(&pipe_mutex);
+                write(pipe_write_fd, msg, strlen(msg));
+                pthread_mutex_unlock(&pipe_mutex);
+                break;
+            }
+
+            if (ready < 0) {
+                perror("select");
+                break;
+            }
+
             // read sensor ID
             bytes = sizeof(data.id);
-            tcp_receive(client, (void *) &data.id, &bytes);
-            //TODO: logger message sensor <ID> connected
+            result = tcp_receive(client, (void *) &data.id, &bytes);
+        if ((result != TCP_NO_ERROR) || bytes == 0) break;
             //logging message
             if (first_conn)
             {
@@ -88,16 +113,16 @@ void *processing_data(void *arg)
 
             bytes = sizeof(data.value);
             result = tcp_receive(client, (void *) &data.value, &bytes);
+            if ((result != TCP_NO_ERROR) || bytes == 0) break;
             // read timestamp
             bytes = sizeof(data.ts);
             result = tcp_receive(client, (void *) &data.ts, &bytes);
-            if ((result == TCP_NO_ERROR) && bytes) {
-                //printf("sensor id = %" PRIu16 " - temperature = %g - timestamp = %ld\n", data.id, data.value,
-                //       (long int) data.ts);
+            if ((result != TCP_NO_ERROR) || bytes == 0) break;
+            //printf("sensor id = %" PRIu16 " - temperature = %g - timestamp = %ld\n", data.id, data.value,
+            //       (long int) data.ts);
 
-                sbuffer_insert(buffer, &data);
-            }
-    } while (result == TCP_NO_ERROR);
+            sbuffer_insert(buffer, &data);
+    } while (true);
     if (result == TCP_CONNECTION_CLOSED)
     {
         char msg[50];
@@ -111,9 +136,36 @@ void *processing_data(void *arg)
     else
         printf("Error occured on connection to peer\n");
     tcp_close(&client);
-
+    free(process);
     pthread_exit(NULL);
 
+}
+
+static int wait_for_data(tcpsock_t *client)
+{
+    int sd;
+    tcp_get_sd(client, &sd);
+
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    FD_SET(sd, &readfds);
+
+    struct timeval timeout;
+    timeout.tv_sec = TIMEOUT;
+    timeout.tv_usec = 0;
+
+    int ret = select(sd + 1, &readfds, NULL, NULL, &timeout);
+
+    if (ret == 0) {
+        // timeout
+        return 0;
+    }
+    if (ret < 0) {
+        // error
+        return -1;
+    }
+
+    return 1; // data available
 }
 
 

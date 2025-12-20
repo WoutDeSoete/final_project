@@ -1,20 +1,28 @@
-0 - Sat Dec 20 14:01:55 2025 - buffer created
-1 - Sat Dec 20 14:01:55 2025 - a new data.csv file has been created
-2 - Sat Dec 20 14:01:57 2025 - sensor node 15 has opened a new connection
-3 - Sat Dec 20 14:01:57 2025 - data insertion from sensor node 15 succeeded
-4 - Sat Dec 20 14:01:59 2025 - data insertion from sensor node 15 succeeded
-5 - Sat Dec 20 14:01:59 2025 - sensor node 21 has opened a new connection
-6 - Sat Dec 20 14:02:00 2025 - data insertion from sensor node 15 succeeded
-7 - Sat Dec 20 14:02:01 2025 - sensor node 37 has opened a new connection
-8 - Sat Dec 20 14:02:01 2025 - data insertion from sensor node 37 succeeded
-9 - Sat Dec 20 14:02:02 2025 - data insertion from sensor node 21 succeeded
-10 - Sat Dec 20 14:02:03 2025 - data insertion from sensor node 37 succeeded
-11 - Sat Dec 20 14:02:05 2025 - data insertion from sensor node 15 succeeded
-12 - Sat Dec 20 14:02:05 2025 - data insertion from sensor node 37 succeeded
-13 - Sat Dec 20 14:02:07 2025 - data insertion from sensor node 15 succeeded
-14 - Sat Dec 20 14:02:09 2025 - data insertion from sensor node 37 succeeded
-15 - Sat Dec 20 14:02:11 2025 - data insertion from sensor node 21 succeeded
-16 - Sat Dec 20 14:02:12 2025 - sensor node 21 has closed the connection
-17 - Sat Dec 20 14:02:12 2025 - sensor node 15 has closed the connection
-18 - Sat Dec 20 14:02:12 2025 - sensor node 37 has closed the connection
-19 - Sat Dec 20 14:02:12 2025 - the data.csv file has been closed
+0 - Sat Dec 20 14:52:57 2025 - buffer created
+1 - Sat Dec 20 14:52:57 2025 - a new data.csv file has been created
+2 - Sat Dec 20 14:52:59 2025 - sensor node 132 has opened a new connection
+3 - Sat Dec 20 14:52:59 2025 - sensor node 15 has opened a new connection
+4 - Sat Dec 20 14:52:59 2025 - sensor node 142 has opened a new connection
+5 - Sat Dec 20 14:52:59 2025 - sensor node 37 has opened a new connection
+6 - Sat Dec 20 14:52:59 2025 - sensor node 21 has opened a new connection
+7 - Sat Dec 20 14:52:59 2025 - data insertion from sensor node 132 succeeded
+8 - Sat Dec 20 14:52:59 2025 - data insertion from sensor node 21 succeeded
+9 - Sat Dec 20 14:52:59 2025 - data insertion from sensor node 142 succeeded
+10 - Sat Dec 20 14:53:00 2025 - data insertion from sensor node 15 succeeded
+11 - Sat Dec 20 14:53:01 2025 - data insertion from sensor node 15 succeeded
+12 - Sat Dec 20 14:53:02 2025 - data insertion from sensor node 21 succeeded
+13 - Sat Dec 20 14:53:03 2025 - data insertion from sensor node 37 succeeded
+14 - Sat Dec 20 14:53:04 2025 - data insertion from sensor node 15 succeeded
+15 - Sat Dec 20 14:53:05 2025 - data insertion from sensor node 142 succeeded
+16 - Sat Dec 20 14:53:05 2025 - data insertion from sensor node 15 succeeded
+17 - Sat Dec 20 14:53:06 2025 - data insertion from sensor node 15 succeeded
+18 - Sat Dec 20 14:53:07 2025 - data insertion from sensor node 15 succeeded
+19 - Sat Dec 20 14:53:08 2025 - data insertion from sensor node 21 succeeded
+20 - Sat Dec 20 14:53:08 2025 - data insertion from sensor node 15 succeeded
+21 - Sat Dec 20 14:53:09 2025 - data insertion from sensor node 15 succeeded
+22 - Sat Dec 20 14:53:10 2025 - sensor node 21 has closed the connection
+23 - Sat Dec 20 14:53:10 2025 - sensor node 37 has closed the connection
+24 - Sat Dec 20 14:53:10 2025 - sensor node 132 has closed the connection
+25 - Sat Dec 20 14:53:10 2025 - sensor node 15 has closed the connection
+26 - Sat Dec 20 14:53:10 2025 - sensor node 142 has closed the connection
+27 - Sat Dec 20 14:53:10 2025 - the data.csv file has been closed
