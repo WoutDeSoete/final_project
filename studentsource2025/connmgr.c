@@ -76,9 +76,10 @@ void *processing_data(void *arg)
     int bytes;
     int result = 0;
     bool first_conn = true;
+    int ready;
 
     do {
-            int ready = wait_for_data(client);
+            ready = wait_for_data(client);
 
             if (ready == 0) {
                 // TIMEOUT occurred
@@ -98,7 +99,7 @@ void *processing_data(void *arg)
             // read sensor ID
             bytes = sizeof(data.id);
             result = tcp_receive(client, (void *) &data.id, &bytes);
-        if ((result != TCP_NO_ERROR) || bytes == 0) break;
+            if ((result != TCP_NO_ERROR) || bytes == 0) break;
             //logging message
             if (first_conn)
             {
@@ -118,23 +119,17 @@ void *processing_data(void *arg)
             bytes = sizeof(data.ts);
             result = tcp_receive(client, (void *) &data.ts, &bytes);
             if ((result != TCP_NO_ERROR) || bytes == 0) break;
-            //printf("sensor id = %" PRIu16 " - temperature = %g - timestamp = %ld\n", data.id, data.value,
-            //       (long int) data.ts);
 
             sbuffer_insert(buffer, &data);
     } while (true);
-    if (result == TCP_CONNECTION_CLOSED)
-    {
-        char msg[50];
-        sprintf(msg, "sensor node %d has closed the connection\n", data.id);
-        pthread_mutex_lock(&pipe_mutex);
-        write(pipe_write_fd, msg, strlen(msg));
-        pthread_mutex_unlock(&pipe_mutex);
-    }
 
 
-    else
-        printf("Error occured on connection to peer\n");
+    char msg[50];
+    sprintf(msg, "sensor node %d has closed the connection\n", data.id);
+    pthread_mutex_lock(&pipe_mutex);
+    write(pipe_write_fd, msg, strlen(msg));
+    pthread_mutex_unlock(&pipe_mutex);
+
     tcp_close(&client);
     free(process);
     pthread_exit(NULL);
